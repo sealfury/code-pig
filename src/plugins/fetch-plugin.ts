@@ -32,13 +32,19 @@ export const fetchPlugin = (inputCode: string) => {
 
         const fileType = args.path.match(/.css$/) ? 'css' : 'jsx'
 
+        // remove newlines and escape double/single quotes in css string
+        const escaped = data
+          .replace(/\n/g, '')
+          .replace(/"/g, '\\"')
+          .replace(/'/g, "\\'")
+
         // workaround to esbuild functionality
         // i.e. how to get css into JS head tag
         const contents =
           fileType === 'css'
             ? /*javascript*/ `
             const style = document.createElement('style')
-            style.innerText = 'body { background-color: "red" }'
+            style.innerText = '${escaped}'
             document.head.appendChild(style)
           `
             : data
