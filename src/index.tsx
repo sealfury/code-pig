@@ -6,6 +6,8 @@ import { unpkgPathPlugin, fetchPlugin } from './plugins'
 
 const App = () => {
   const ref = useRef<any>()
+  const iframe = useRef<any>()
+
   const [input, setInput] = useState('')
   const [code, setCode] = useState('')
 
@@ -40,15 +42,24 @@ const App = () => {
       },
     })
 
-    setCode(result.outputFiles[0].text)
+    // setCode(result.outputFiles[0].text)
+    iframe.current.contentWindow.postMessage(result.outputFiles[0].text, '*')
   }
 
   // Google chrome no longer allows this
   // Figure out how to fix it
-  const html = `
-    <script>
-      ${code}
-    </script>
+  const html = /*html*/ `
+    <html>
+      <head></head>
+      <body>
+        <div id="root"></div>
+        <script>
+            window.addEventListener('message', (event) => {
+              eval(event.data);
+            }, false)
+        </script>
+      </body>
+    </html>
   `
 
   return (
@@ -61,7 +72,7 @@ const App = () => {
         <button onClick={onClick}>Submit</button>
       </div>
       <pre>{code}</pre>
-      <iframe sandbox='allow-scripts' src={html} />
+      <iframe ref={iframe} sandbox='allow-scripts' srcDoc={html} />
     </div>
   )
 }
