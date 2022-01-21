@@ -12,7 +12,10 @@ const App = () => {
   const startService = async () => {
     ref.current = await esbuild.startService({
       worker: true,
-      wasmURL: '/esbuild.wasm',
+      // externally fetch web assembly binary
+      // return to local usage from public folder
+      // if necessary - see PR #1
+      wasmURL: 'https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm',
     })
   }
   useEffect(() => {
