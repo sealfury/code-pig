@@ -1,7 +1,8 @@
 import * as esbuild from 'esbuild-wasm'
 import { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom'
-import { unpkgPathPlugin } from './plugins/unpkg-path-plugin'
+
+import { unpkgPathPlugin, fetchPlugin } from './plugins'
 
 const App = () => {
   const ref = useRef<any>()
@@ -11,7 +12,10 @@ const App = () => {
   const startService = async () => {
     ref.current = await esbuild.startService({
       worker: true,
-      wasmURL: '/esbuild.wasm',
+      // externally fetch web assembly binary
+      // return to local usage from public folder
+      // if necessary - see PR #1
+      wasmURL: 'https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm',
     })
   }
   useEffect(() => {
@@ -27,10 +31,16 @@ const App = () => {
       entryPoints: ['index.js'],
       bundle: true,
       write: false,
-      plugins: [unpkgPathPlugin()],
+      plugins: [unpkgPathPlugin(), fetchPlugin(input)],
+      define: {
+        // aka str 'production', not var named production
+        'process.env.NODE_ENV': '"production"',
+        // replaces var global with window for browser (webpack does automatically)
+        global: 'window',
+      },
     })
 
-    setCode(result.code)
+    setCode(result.outputFiles[0].text)
   }
 
   return (
