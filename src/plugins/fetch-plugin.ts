@@ -30,9 +30,22 @@ export const fetchPlugin = (inputCode: string) => {
 
         const { data, request } = await axios.get(args.path)
 
+        const fileType = args.path.match(/.css$/) ? 'css' : 'jsx'
+
+        // workaround to esbuild functionality
+        // i.e. how to get css into JS head tag
+        const contents =
+          fileType === 'css'
+            ? /*javascript*/ `
+            const style = document.createElement('style')
+            style.innerText = 'body { background-color: "red" }'
+            document.head.appendChild(style)
+          `
+            : data
+
         const result: esbuild.OnLoadResult = {
           loader: 'jsx',
-          contents: data,
+          contents,
           resolveDir: new URL('./', request.responseURL).pathname,
         }
         // Store response in cache
