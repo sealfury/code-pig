@@ -6,14 +6,6 @@ const fileCache = localforage.createInstance({
   name: 'file-cache',
 })
 
-// semi-colon required for anonymous fn below
-// ;(async () => {
-//   await fileCache.setItem('color', 'green')
-
-//   const color = await fileCache.getItem('color')
-//   console.log(color)
-// })()
-
 export const unpkgPathPlugin = () => {
   return {
     name: 'unpkg-path-plugin',
