@@ -10,14 +10,15 @@ export const fetchPlugin = (inputCode: string) => {
   return {
     name: 'fetch-plugin',
     setup(build: esbuild.PluginBuild) {
-      build.onLoad({ filter: /.*/ }, async (args: any) => {
-        if (args.path === 'index.js') {
-          return {
-            loader: 'jsx',
-            contents: inputCode,
-          }
+      build.onLoad({ filter: /(^index\.js$)/ }, () => {
+        return {
+          loader: 'jsx',
+          contents: inputCode,
         }
+      })
 
+      // Global check for pkg file in cache
+      build.onLoad({ filter: /.*/ }, async (args: any) => {
         // Check to see if file has been fetched & it is in cache
         const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(
           args.path
@@ -27,10 +28,10 @@ export const fetchPlugin = (inputCode: string) => {
         if (cachedResult) {
           return cachedResult
         }
+      })
 
+      build.onLoad({ filter: /.css$/ }, async (args: any) => {
         const { data, request } = await axios.get(args.path)
-
-        const fileType = args.path.match(/.css$/) ? 'css' : 'jsx'
 
         // remove newlines and escape double/single quotes in css string
         const escaped = data
@@ -40,18 +41,29 @@ export const fetchPlugin = (inputCode: string) => {
 
         // workaround to esbuild functionality
         // i.e. how to get css into JS head tag
-        const contents =
-          fileType === 'css'
-            ? /*javascript*/ `
+        const contents = /*javascript*/ `
             const style = document.createElement('style')
             style.innerText = '${escaped}'
             document.head.appendChild(style)
           `
-            : data
 
         const result: esbuild.OnLoadResult = {
           loader: 'jsx',
           contents,
+          resolveDir: new URL('./', request.responseURL).pathname,
+        }
+        // Store response in cache
+        await fileCache.setItem(args.path, result)
+
+        return result
+      })
+
+      build.onLoad({ filter: /.*/ }, async (args: any) => {
+        const { data, request } = await axios.get(args.path)
+
+        const result: esbuild.OnLoadResult = {
+          loader: 'jsx',
+          contents: data,
           resolveDir: new URL('./', request.responseURL).pathname,
         }
         // Store response in cache
