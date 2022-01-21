@@ -27,7 +27,7 @@ const App = () => {
       entryPoints: ['index.js'],
       bundle: true,
       write: false,
-      plugins: [unpkgPathPlugin()],
+      plugins: [unpkgPathPlugin(input)],
       define: {
         // aka str 'production', not var named production
         'process.env.NODE_ENV': '"production"',
