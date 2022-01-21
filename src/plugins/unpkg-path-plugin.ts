@@ -1,5 +1,18 @@
 import * as esbuild from 'esbuild-wasm'
 import axios from 'axios'
+import localforage from 'localforage'
+
+const fileCache = localforage.createInstance({
+  name: 'file-cache',
+})
+
+// semi-colon required for anonymous fn below
+// ;(async () => {
+//   await fileCache.setItem('color', 'green')
+
+//   const color = await fileCache.getItem('color')
+//   console.log(color)
+// })()
 
 export const unpkgPathPlugin = () => {
   return {
@@ -40,13 +53,28 @@ export const unpkgPathPlugin = () => {
             `,
           }
         }
+
+        // Check to see if file has been fetched & it is in cache
+        const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(
+          args.path
+        )
+
+        // If file is in cache, return immediately
+        if (cachedResult) {
+          return cachedResult
+        }
+
         const { data, request } = await axios.get(args.path)
 
-        return {
+        const result: esbuild.OnLoadResult = {
           loader: 'jsx',
           contents: data,
           resolveDir: new URL('./', request.responseURL).pathname,
         }
+        // Store response in cache
+        await fileCache.setItem(args.path, result)
+
+        return result
       })
     },
   }
