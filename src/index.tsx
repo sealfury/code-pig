@@ -29,6 +29,9 @@ const App = () => {
       return
     }
 
+    // reset contents of iframe after submit
+    iframe.current.srcdoc = html
+
     const result = await ref.current.build({
       entryPoints: ['index.js'],
       bundle: true,
