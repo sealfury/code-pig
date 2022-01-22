@@ -1,4 +1,7 @@
+import { useRef } from 'react'
 import Editor, { EditorDidMount } from '@monaco-editor/react'
+import prettier from 'prettier'
+import parser from 'prettier/parser-babel'
 
 interface CodeEditorProps {
   initialValue: string
@@ -6,9 +9,13 @@ interface CodeEditorProps {
 }
 
 const CodeEditor: React.FC<CodeEditorProps> = ({ onChange, initialValue }) => {
+  const editorRef = useRef<any>()
+
   // Handle editor change events -
   // See editorDidMount et al type defs for details
   const onEditorDidMount: EditorDidMount = (getValue, monaco) => {
+    editorRef.current = monaco
+
     monaco.onDidChangeModelContent(() => {
       onChange(getValue())
     })
@@ -16,25 +23,45 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ onChange, initialValue }) => {
     monaco.getModel()?.updateOptions({ tabSize: 2 })
   }
 
+  const onFormatClick = () => {
+    // Get current value from editor
+    const unformatted = editorRef.current.getModel().getValue()
+
+    // Format the value
+    const formatted = prettier.format(unformatted, {
+      parser: 'babel',
+      plugins: [parser],
+      useTabs: false,
+      semi: false,
+      singleQuote: true,
+    })
+
+    // Set the formatted value back in the editor
+    editorRef.current.setValue(formatted)
+  }
+
   return (
-    <Editor
-      editorDidMount={onEditorDidMount}
-      value={initialValue}
-      language='javascript'
-      theme='dark'
-      height='500px'
-      options={{
-        wordWrap: 'on',
-        minimap: { enabled: false },
-        showUnused: false,
-        folding: false,
-        lineNumbersMinChars: 3,
-        fontSize: 15,
-        fontFamily: 'Monaco',
-        scrollBeyondLastLine: false,
-        automaticLayout: true,
-      }}
-    />
+    <div>
+      <button onClick={onFormatClick}>Format</button>
+      <Editor
+        editorDidMount={onEditorDidMount}
+        value={initialValue}
+        language='javascript'
+        theme='dark'
+        height='500px'
+        options={{
+          wordWrap: 'on',
+          minimap: { enabled: false },
+          showUnused: false,
+          folding: false,
+          lineNumbersMinChars: 3,
+          fontSize: 15,
+          fontFamily: 'Monaco',
+          scrollBeyondLastLine: false,
+          automaticLayout: true,
+        }}
+      />
+    </div>
   )
 }
 
