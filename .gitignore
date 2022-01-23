@@ -29,3 +29,4 @@ react-app-env.d.ts
 /public/esbuild.wasm
 test.html
 .notes
+.alertsAndWarnings
