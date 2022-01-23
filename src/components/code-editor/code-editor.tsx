@@ -1,4 +1,5 @@
 import './code-editor.css'
+import './syntax.css'
 import { useRef } from 'react'
 import Editor, { EditorDidMount } from '@monaco-editor/react'
 import prettier from 'prettier'
@@ -80,10 +81,19 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ onChange, initialValue }) => {
           showUnused: false,
           folding: false,
           lineNumbersMinChars: 3,
-          fontSize: 15,
-          fontFamily: 'Monaco',
+          fontSize: 16,
+          fontWeight: 'bold',
+          fontFamily: 'Consolas',
           scrollBeyondLastLine: false,
+          smoothScrolling: true,
           automaticLayout: true,
+          ariaLabel: '30px',
+          renderFinalNewline: true,
+          cursorBlinking: 'smooth',
+          colorDecorators: true,
+          copyWithSyntaxHighlighting: true,
+          selectionHighlight: true,
+          occurrencesHighlight: true,
         }}
       />
     </div>
