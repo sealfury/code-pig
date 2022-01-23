@@ -3,6 +3,8 @@ import { useRef } from 'react'
 import Editor, { EditorDidMount } from '@monaco-editor/react'
 import prettier from 'prettier'
 import parser from 'prettier/parser-babel'
+import codeShift from 'jscodeshift'
+import MonacoJsxHighlighter from 'monaco-jsx-highlighter'
 
 interface CodeEditorProps {
   initialValue: string
@@ -13,15 +15,30 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ onChange, initialValue }) => {
   const editorRef = useRef<any>()
 
   // Handle editor change events -
-  // See editorDidMount et al type defs for details
-  const onEditorDidMount: EditorDidMount = (getValue, monaco) => {
-    editorRef.current = monaco
+  // See editorDidMount, et al, type defs for details
+  const onEditorDidMount: EditorDidMount = (getValue, monacoEditor) => {
+    editorRef.current = monacoEditor
 
-    monaco.onDidChangeModelContent(() => {
+    monacoEditor.onDidChangeModelContent(() => {
       onChange(getValue())
     })
 
-    monaco.getModel()?.updateOptions({ tabSize: 2 })
+    monacoEditor.getModel()?.updateOptions({ tabSize: 2 })
+
+    // set up syntax highlighting in code editor
+    const highlighter = new MonacoJsxHighlighter(
+      // @ts-ignore
+      window.monaco,
+      codeShift,
+      monacoEditor
+    )
+    // prevent highlighter from console.logging constantly
+    highlighter.highLightOnDidChangeModelContent(
+      () => {},
+      () => {},
+      undefined,
+      () => {}
+    )
   }
 
   const onFormatClick = () => {
