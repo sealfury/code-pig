@@ -3,7 +3,7 @@ import { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 import { CodeEditor, Preview } from './components'
-import bundle from './bundler'
+import { bundle } from './bundler'
 
 const App = () => {
   const [input, setInput] = useState('')
