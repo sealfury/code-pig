@@ -37,3 +37,6 @@ test.html
 # a bit of JSX to paste into the editor
 # for manual testing after refreshes
 XScratch.jsx
+
+# images & icons
+/public/resize-handle.png
