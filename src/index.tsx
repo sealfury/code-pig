@@ -4,12 +4,12 @@ import { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom'
 
 import { unpkgPathPlugin, fetchPlugin } from './plugins'
-import { CodeEditor } from './components'
+import { CodeEditor, Preview } from './components'
 
 const App = () => {
   const ref = useRef<any>()
-  const iframe = useRef<any>()
   const [input, setInput] = useState('')
+  const [code, setCode] = useState('')
 
   const startService = async () => {
     ref.current = await esbuild.startService({
@@ -29,9 +29,6 @@ const App = () => {
       return
     }
 
-    // reset contents of iframe after submit
-    iframe.current.srcdoc = html
-
     const result = await ref.current.build({
       entryPoints: ['index.js'],
       bundle: true,
@@ -45,32 +42,8 @@ const App = () => {
       },
     })
 
-    // setCode(result.outputFiles[0].text)
-    iframe.current.contentWindow.postMessage(result.outputFiles[0].text, '*')
+    setCode(result.outputFiles[0].text)
   }
-
-  // Google chrome no longer allows this
-  // Figure out how to fix it
-  const html = /*html*/ `
-    <html>
-      <head></head>
-      <body>
-        <div id="root"></div>
-        <script>
-            window.addEventListener('message', (event) => {
-              try {
-                eval(event.data)
-              } catch (err) {
-                const root = document.querySelector('#root')
-                root.innerHTML = 
-                  '<div style="color: #ff0d5d;"><h3>Runtime Error</h3>' + err + '</div>'
-                console.error(err)
-              }
-            }, false)
-        </script>
-      </body>
-    </html>
-  `
 
   return (
     <div>
@@ -78,19 +51,10 @@ const App = () => {
         initialValue='// Start writing some code!'
         onChange={val => setInput(val)}
       />
-      <textarea
-        value={input}
-        onChange={e => setInput(e.target.value)}
-      ></textarea>
       <div>
         <button onClick={onClick}>Submit</button>
       </div>
-      <iframe
-        title='preview'
-        ref={iframe}
-        sandbox='allow-scripts'
-        srcDoc={html}
-      />
+      <Preview code={code} />
     </div>
   )
 }
