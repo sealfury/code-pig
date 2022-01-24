@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CodeEditor, Preview } from '..'
+import { CodeEditor, Preview, Resizable } from '..'
 import { bundle } from '../../bundler'
 
 const CodeCell = () => {
@@ -12,16 +12,18 @@ const CodeCell = () => {
   }
 
   return (
-    <div>
-      <CodeEditor
-        initialValue='// Start writing some code!'
-        onChange={val => setInput(val)}
-      />
+    <Resizable direction='vertical'>
       <div>
-        <button onClick={onClick}>Submit</button>
+        <CodeEditor
+          initialValue='// Start writing some code!'
+          onChange={val => setInput(val)}
+        />
+        <div>
+          <button onClick={onClick}>Submit</button>
+        </div>
+        <Preview code={code} />
       </div>
-      <Preview code={code} />
-    </div>
+    </Resizable>
   )
 }
 
