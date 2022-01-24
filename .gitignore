@@ -29,3 +29,11 @@ react-app-env.d.ts
 /public/esbuild.wasm
 test.html
 .notes
+
+# collection of alerts, warnings, and bugs
+# that accumulated since the last iteration
+.alertsAndWarnings
+
+# a bit of JSX to paste into the editor
+# for manual testing after refreshes
+XScratch.jsx
