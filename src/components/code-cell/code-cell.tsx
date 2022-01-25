@@ -1,27 +1,37 @@
-import { useState } from 'react'
-import { CodeEditor, Preview } from '..'
+import { useState, useEffect } from 'react'
+import { CodeEditor, Preview, Resizable } from '..'
 import { bundle } from '../../bundler'
 
 const CodeCell = () => {
   const [input, setInput] = useState('')
   const [code, setCode] = useState('')
+  const [err, setErr] = useState('')
 
-  const onClick = async () => {
-    const output = await bundle(input)
-    setCode(output)
-  }
+  // auto-bundle user code after 0.8s
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      const output = await bundle(input)
+      setCode(output.code)
+      setErr(output.err)
+    }, 800)
+
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [input])
 
   return (
-    <div>
-      <CodeEditor
-        initialValue='// Start writing some code!'
-        onChange={val => setInput(val)}
-      />
-      <div>
-        <button onClick={onClick}>Submit</button>
+    <Resizable direction='vertical'>
+      <div style={{ height: '100%', display: 'flex', flexDirection: 'row' }}>
+        <Resizable direction='horizontal'>
+          <CodeEditor
+            initialValue='// Start writing some code!'
+            onChange={val => setInput(val)}
+          />
+        </Resizable>
+        <Preview code={code} bundleErr={err} />
       </div>
-      <Preview code={code} />
-    </div>
+    </Resizable>
   )
 }
 
