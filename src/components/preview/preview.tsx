@@ -13,14 +13,17 @@ const html = /*html*/ `
       <body>
         <div id="root"></div>
         <script>
+            const handleError = (err) => {
+              const root = document.querySelector('#root')
+                root.innerHTML = 
+                  '<div style="color: #ff0d5d;"><h3>Runtime Error</h3>' + err + '</div>'
+                console.error(err)
+            }
             window.addEventListener('message', (event) => {
               try {
                 eval(event.data)
               } catch (err) {
-                const root = document.querySelector('#root')
-                root.innerHTML = 
-                  '<div style="color: #ff0d5d;"><h3>Runtime Error</h3>' + err + '</div>'
-                console.error(err)
+                handleError(err)
               }
             }, false)
         </script>
