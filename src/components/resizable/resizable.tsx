@@ -14,18 +14,17 @@ const Resizable: React.FC<ResizableProps> = ({ direction, children }) => {
   // state to synchronize width on resize of browser window
   const [width, setWidth] = useState(window.innerWidth * 0.75)
 
+  // debounce resize, prevent lag
   useEffect(() => {
     let timer: any
 
     const listener = () => {
-      // debounce resize, prevent lag
       if (timer) {
         clearTimeout(timer)
       }
       timer = setTimeout(() => {
         setInnerHeight(window.innerHeight)
         setInnerWidth(window.innerWidth)
-
         // prevent resizing browser window beyond dimensions of preview
         if (window.innerWidth * 0.75 < width) {
           setWidth(window.innerWidth * 0.75)
