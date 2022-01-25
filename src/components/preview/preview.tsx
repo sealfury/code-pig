@@ -34,8 +34,10 @@ const Preview: React.FC<PreviewProps> = ({ code }) => {
   useEffect(() => {
     // reset contents of iframe after submit
     iframe.current.srcdoc = html
-
-    iframe.current.contentWindow.postMessage(code, '*')
+    // give event listener time to set up
+    setTimeout(() => {
+      iframe.current.contentWindow.postMessage(code, '*')
+    }, 50)
   }, [code])
 
   return (
