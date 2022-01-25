@@ -5,12 +5,14 @@ import { bundle } from '../../bundler'
 const CodeCell = () => {
   const [input, setInput] = useState('')
   const [code, setCode] = useState('')
+  const [err, setErr] = useState('')
 
   // auto-bundle user code after 0.8s
   useEffect(() => {
     const timer = setTimeout(async () => {
       const output = await bundle(input)
-      setCode(output)
+      setCode(output.code)
+      setErr(output.err)
     }, 800)
 
     return () => {
@@ -27,7 +29,7 @@ const CodeCell = () => {
             onChange={val => setInput(val)}
           />
         </Resizable>
-        <Preview code={code} />
+        <Preview code={code} bundleErr={err} />
       </div>
     </Resizable>
   )
