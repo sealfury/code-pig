@@ -68,7 +68,9 @@ const reducer = produce(
       default:
         return state
     }
-  }
+  },
+  // initialState as 2nd arg is crucial, do not remove!
+  initialState
 )
 
 export default reducer
