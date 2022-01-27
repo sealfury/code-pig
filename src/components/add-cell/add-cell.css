@@ -28,11 +28,20 @@
 
 .add-cell .add-buttons button {
   margin: 0 40px;
-  font-size: 16px;
-  font-weight: bolder;
+  padding: 18px;
+}
+
+.cell-btn-type {
+  font-size: 18px;
+  font-weight: 1600px;
   font-variant: small-caps;
-  color: #e0fcba;
-  letter-spacing: 1px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fee3ff;
+  letter-spacing: 2px;
+}
+
+.cell-btn-icon {
+  color: #ffbd8a;
 }
 
 /* 
