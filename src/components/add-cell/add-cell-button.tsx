@@ -11,7 +11,7 @@ const AddCellButton: React.FC<AddCellButtonProps> = ({ onClick, type }) => {
       className='button is-rounded is-primary is-active is-small'
       onClick={onClick}
     >
-      <span className='icon is-small'>
+      <span className='icon is-medium'>
         <i className='cell-btn-icon fas fa-plus' />
       </span>
       <span className='cell-btn-type'>{type}</span>
