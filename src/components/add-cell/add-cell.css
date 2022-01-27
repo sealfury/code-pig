@@ -34,3 +34,11 @@
   color: #e0fcba;
   letter-spacing: 1px;
 }
+
+/* 
+** Force visibility of component when there are
+** no code or text cells displayed
+*/
+.add-cell.force-visible {
+  opacity: 1;
+}
