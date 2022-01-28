@@ -1,3 +1,4 @@
+import './code-cell.css'
 import { useEffect } from 'react'
 import { CodeEditor, Preview, Resizable } from '..'
 import { Cell } from '../../state'
@@ -46,7 +47,11 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
         </Resizable>
         {/* don't bundle code before app has loaded */}
         {!bundle || bundle.loading ? (
-          <div>Loading...</div>
+          <div className='progress-wrapper'>
+            <progress className='progress is-normal is-warning' max='100'>
+              Loading
+            </progress>
+          </div>
         ) : (
           <Preview code={bundle.code} bundleErr={bundle.err} />
         )}
