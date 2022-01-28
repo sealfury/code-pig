@@ -1,7 +1,12 @@
-.progress-wrapper {
+.progress-container {
   height: 100%;
   flex-grow: 1;
-  background-color: azure;
+  background-color: #f2fffe;
+}
+
+.progress-wrapper {
+  height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
   padding-left: 10%;
