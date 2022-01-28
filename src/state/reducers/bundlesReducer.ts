@@ -36,6 +36,7 @@ const reducer = produce(
         return state
     }
   },
+  // initialState as 2nd arg is crucial, do not remove!
   initialState
 )
 
