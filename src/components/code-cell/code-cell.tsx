@@ -45,7 +45,11 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
           />
         </Resizable>
         {/* don't bundle code before app has loaded */}
-        {bundle && <Preview code={bundle.code} bundleErr={bundle.err} />}
+        {!bundle || bundle.loading ? (
+          <div>Loading...</div>
+        ) : (
+          <Preview code={bundle.code} bundleErr={bundle.err} />
+        )}
       </div>
     </Resizable>
   )
