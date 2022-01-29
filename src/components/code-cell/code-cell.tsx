@@ -15,27 +15,36 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
   const cumulativeCode = useTypedSelector(state => {
     const { data, order } = state.cells
     const orderedCells = order.map(id => data[id])
-    const cumulativeCode = [
-      `
-        import _React from 'react'
-        import _ReactDOM from 'react-dom'
-        
-        var show = (value) => {
-          const root = document.querySelector('#root')
-          if (typeof  value === 'object') {
-            if (value.$$typeof && value.props) {
-              _ReactDOM.render(value, root)
-            } else {
-              root.innerHTML = JSON.stringify(value)
-            }
-          } else {
-            root.innerHTML = value
-          }
+
+    const showFn = `
+    import _React from 'react'
+    import _ReactDOM from 'react-dom'
+
+    var show = (value) => {
+      const root = document.querySelector('#root')
+      
+      if (typeof  value === 'object') {
+        if (value.$$typeof && value.props) {
+          _ReactDOM.render(value, root)
+        } else {
+          root.innerHTML = JSON.stringify(value)
         }
-      `,
-    ]
+      } else {
+        root.innerHTML = value
+      }
+    }
+  `
+
+    const showFnNoOp = 'var show = () => {}'
+
+    const cumulativeCode = []
     for (let c of orderedCells) {
       if (c.type === 'code') {
+        if (c.id === cell.id) {
+          cumulativeCode.push(showFn)
+        } else {
+          cumulativeCode.push(showFnNoOp)
+        }
         cumulativeCode.push(c.content)
       }
       if (c.id === cell.id) {
