@@ -1,0 +1,42 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# auto-generated
+react-app-env.d.ts
+
+# local reference docs 
+/public/esbuild.wasm
+test.html
+.notes
+
+# collection of alerts, warnings, and bugs
+# that accumulated since the last iteration
+.alertsAndWarnings
+
+# a bit of JSX to paste into the editor
+# for manual testing after refreshes
+XScratch.jsx
+
+# images & icons
+/public/resize-handle.png
