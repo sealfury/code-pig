@@ -1,1 +1,1 @@
-export { serveCommand as serve } from './serve'
+export { serveCommand } from './serve'

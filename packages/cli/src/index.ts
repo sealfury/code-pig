@@ -1,6 +1,6 @@
 import { program } from 'commander'
-import { serve } from './commands'
+import { serveCommand } from './commands'
 
-program.addCommand(serve)
+program.addCommand(serveCommand)
 
 program.parse(process.argv)
