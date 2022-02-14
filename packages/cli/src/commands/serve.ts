@@ -2,6 +2,8 @@ import { Command } from 'commander'
 import path from 'path'
 import { serve } from 'local-api'
 
+const isProduction = process.env.NODE_ENV === 'production'
+
 export const serveCommand = new Command()
   // [] = optional value; <> = required value
   .command('serve [filename]')
@@ -11,7 +13,13 @@ export const serveCommand = new Command()
     try {
       // access file whether user provides exact path or not
       const dir = path.join(process.cwd(), path.dirname(filename))
-      await serve(parseInt(options.port), path.basename(filename), dir)
+      // use proxy if execution environment is not production
+      await serve(
+        parseInt(options.port),
+        path.basename(filename),
+        dir,
+        !isProduction
+      )
       console.log(
         `Opened '${filename}'. Navigate to http://localhost:${options.port} to edit the file.`
       )
