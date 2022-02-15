@@ -2,8 +2,16 @@
   "name": "codepig",
   "version": "1.0.0",
   "description": "CLI for the 'CodePig' coding notebook",
+  "bin": "dist/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "start": "tsc --watch --preserveWatchOutput"
+    "start": "tsc --watch --preserveWatchOutput",
+    "prepublishOnly": "tsc"
   },
   "keywords": [],
   "author": "@sealfury",

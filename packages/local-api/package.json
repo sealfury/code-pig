@@ -2,10 +2,17 @@
   "name": "@codepig/local-api",
   "version": "1.0.0",
   "description": "Local API for the 'CodePig' Coding Notebook",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "start": "tsc --watch --preserveWatchOutput"
+    "start": "tsc --watch --preserveWatchOutput",
+    "prepublishOnly": "tsc"
   },
   "keywords": [],
   "author": "@sealfury",
