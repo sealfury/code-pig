@@ -1,6 +1,7 @@
 ## Monorepo Ignore settings
 .DS_Store
 node_modules
+build
 dist
 
 # local reference docs
