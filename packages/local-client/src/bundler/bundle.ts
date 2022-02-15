@@ -21,7 +21,7 @@ const bundle = async (codeInput: string) => {
       define: {
         // aka str 'production', not var named production
         'process.env.NODE_ENV': '"production"',
-        // replaces var global with window for browser (replace webpack fnlty)
+        // replaces var 'global' with 'window' for browser (replace webpack fnlty)
         global: 'window',
       },
     })
