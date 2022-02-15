@@ -24,7 +24,7 @@ export const serve = (
     )
   } else {
     // User has installed & is running app on their machine
-    const pkgPath = require.resolve('local-client/build/index.html')
+    const pkgPath = require.resolve('@codepig/local-client/build/index.html')
     app.use(express.static(path.dirname(pkgPath)))
   }
 

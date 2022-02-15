@@ -1,6 +1,6 @@
 import { Command } from 'commander'
 import path from 'path'
-import { serve } from 'local-api'
+import { serve } from '@codepig/local-api'
 
 const isProduction = process.env.NODE_ENV === 'production'
 

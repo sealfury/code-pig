@@ -1,16 +1,16 @@
 {
-  "name": "cli",
+  "name": "codepig",
   "version": "1.0.0",
-  "description": "",
+  "description": "CLI for the 'CodePig' coding notebook",
   "scripts": {
     "start": "tsc --watch --preserveWatchOutput"
   },
   "keywords": [],
-  "author": "",
+  "author": "@sealfury",
   "license": "ISC",
   "dependencies": {
     "commander": "^9.0.0",
-    "local-api": "^1.0.0"
+    "@codepig/local-api": "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.17",

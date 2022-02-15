@@ -1,5 +1,5 @@
 {
-  "name": "local-client",
+  "name": "@codepig/local-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -66,5 +66,8 @@
   "devDependencies": {
     "react-error-overlay": "6.0.9",
     "sass": "^1.49.0"
-  }
+  },
+  "description": "Local client for the 'CodePig' coding notebook",
+  "author": "@sealfury",
+  "license": "ISC"
 }

@@ -1,14 +1,14 @@
 {
-  "name": "local-api",
+  "name": "@codepig/local-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Local API for the 'CodePig' Coding Notebook",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "start": "tsc --watch --preserveWatchOutput"
   },
   "keywords": [],
-  "author": "",
+  "author": "@sealfury",
   "license": "ISC",
   "devDependencies": {
     "@types/cors": "^2.8.12",
@@ -19,6 +19,6 @@
     "cors": "^2.8.5",
     "express": "^4.17.2",
     "http-proxy-middleware": "^2.0.3",
-    "local-client": "^0.1.0"
+    "@codepig/local-client": "^0.1.0"
   }
 }
