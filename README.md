@@ -37,3 +37,4 @@ Simply run the command `npx codepig serve` in your terminal in a chosen project 
 
 - Thank you for your interest in helping CodePig grow!
 - If you want to help style the app or add support for more languages, simply clone the repo and make a pull request!
+- _NB: As this project uses [lerna](https://github.com/lerna/lerna) to manage the monorepo structure, **please familiarise yourself with how it works before making any changes.** For example, installing packages directly with NPM will most likely result in breaking changes_
