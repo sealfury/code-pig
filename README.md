@@ -31,7 +31,7 @@ Simply run the command `npx codepig serve` in your terminal in a chosen project 
 - Use the `show()` function to print code output in the preview window
 - The app remembers your declared variables, functions, and imports across code cells
 - Here is a screenshot demonstrating some of what the app can do:
-  ![screenshot](Images/codepig_screenshot_1.png)
+  ![screenshot](Screenshots/codepig_screenshot_1.png)
 
 ### Contributing <a name = "contributing"></a>
 
